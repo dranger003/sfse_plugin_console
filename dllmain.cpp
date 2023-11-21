@@ -55,19 +55,6 @@ static void _LOGB(const char* message) {
 	g_Log.flush();
 }
 
-// Hooks / UsingConsoleMayDisableAchievements
-
-struct hkUsingConsoleMayDisableAchievements
-{
-	static void Apply() {
-		g_Trampoline.write5Call(RelocAddr<uintptr_t>(0x0287CF97).getUIntPtr(), (uintptr_t)&Hook);
-	}
-
-	static void Hook(uintptr_t) {
-		return;
-	}
-};
-
 // Hooks / ConsoleOutputLine
 
 struct hkConsoleOutputLine
@@ -80,12 +67,12 @@ struct hkConsoleOutputLine
 			jmp(ptr[rip + label1]);
 
 			L(label1);
-			dq(RelocAddr<decltype(&Hook)>(0x02886D45 + 5).getUIntPtr());
+			dq(RelocAddr<decltype(&Hook)>(0x02892F35 + 5).getUIntPtr()); // 2886D45
 		}
 	};
 
 	static void Apply() {
-		g_Trampoline.write5Branch(RelocAddr<uintptr_t>(0x02886D45).getUIntPtr(), (uintptr_t)&Hook);
+		g_Trampoline.write5Branch(RelocAddr<uintptr_t>(0x02892F35).getUIntPtr(), (uintptr_t)&Hook);
 	}
 
 	static void Hook(void* unk1, void* unk2) {
@@ -105,7 +92,6 @@ hkConsoleOutputLine::Asm hkConsoleOutputLine::_Hook;
 static void SFSEPlugin_EventCallback(SFSEMessagingInterface::Message* msg)
 {
 	if (msg->type == SFSEMessagingInterface::kMessage_PostLoad) {
-		//hkUsingConsoleMayDisableAchievements::Apply();
 		hkConsoleOutputLine::Apply();
 	}
 }
@@ -113,7 +99,7 @@ static void SFSEPlugin_EventCallback(SFSEMessagingInterface::Message* msg)
 extern "C"
 {
 	__declspec(dllexport) SFSEPluginVersionData SFSEPlugin_Version = {
-		SFSEPluginVersionData::kVersion, 1, "Console Hooks", "stonegdi", 0, 0, { RUNTIME_VERSION_1_7_36, 0 }, 0, 0, 0,
+		SFSEPluginVersionData::kVersion, 1, "Console Hooks", "stonegdi", 0, 0, { RUNTIME_VERSION_1_8_86, 0 }, 0, 0, 0,
 	};
 
 	__declspec(dllexport) bool SFSEPlugin_Preload(const SFSEInterface* sfse) {
