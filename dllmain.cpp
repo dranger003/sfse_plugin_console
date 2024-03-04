@@ -63,16 +63,16 @@ struct hkConsoleOutputLine
 		Asm() {
 			Xbyak::Label label1;
 
-			mov(ptr[rsp + 0x8], rbx);
+			mov(ptr[rsp + 0x8], rbx);								// DSP/04/01/D | 48 89 5C 24 08                       | 48 89 5C 24 ??
 			jmp(ptr[rip + label1]);
 
 			L(label1);
-			dq(RelocAddr<decltype(&Hook)>(0x028D8905 + 5).getUIntPtr());
+			dq(RelocAddr<decltype(&Hook)>(0x028D8945 + 5).getUIntPtr()); // 0x028D8905
 		}
 	};
 
 	static void Apply() {
-		g_Trampoline.write5Branch(RelocAddr<uintptr_t>(0x028D8905).getUIntPtr(), (uintptr_t)&Hook);
+		g_Trampoline.write5Branch(RelocAddr<uintptr_t>(0x028D8945).getUIntPtr(), (uintptr_t)&Hook); // 0x028D8905
 	}
 
 	static void Hook(void* unk1, void* unk2) {
@@ -99,7 +99,7 @@ static void SFSEPlugin_EventCallback(SFSEMessagingInterface::Message* msg)
 extern "C"
 {
 	__declspec(dllexport) SFSEPluginVersionData SFSEPlugin_Version = {
-		SFSEPluginVersionData::kVersion, 1, "Console Hooks", "stonegdi", 0, 0, { RUNTIME_VERSION_1_9_67, 0 }, 0, 0, 0,
+		SFSEPluginVersionData::kVersion, 1, "Console Hooks", "stonegdi", 0, 0, { RUNTIME_VERSION_1_9_71, 0 }, 0, 0, 0,
 	};
 
 	__declspec(dllexport) bool SFSEPlugin_Preload(const SFSEInterface* sfse) {
