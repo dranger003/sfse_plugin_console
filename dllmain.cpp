@@ -99,7 +99,7 @@ static void SFSEPlugin_EventCallback(SFSEMessagingInterface::Message* msg)
 extern "C"
 {
 	__declspec(dllexport) SFSEPluginVersionData SFSEPlugin_Version = {
-		SFSEPluginVersionData::kVersion, 1, "Console Hooks", "stonegdi", 0, 0, { RUNTIME_VERSION_1_10_30, 0 }, 0, 0, 0,
+		SFSEPluginVersionData::kVersion, 1, "Console Hooks", "stonegdi", 0, 0, { RUNTIME_VERSION_1_10_31, 0 }, 0, 0, 0,
 	};
 
 	__declspec(dllexport) bool SFSEPlugin_Preload(const SFSEInterface* sfse) {
