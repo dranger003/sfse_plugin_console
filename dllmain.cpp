@@ -67,12 +67,12 @@ struct hkConsoleOutputLine
 			jmp(ptr[rip + label1]);
 
 			L(label1);
-			dq(RelocAddr<decltype(&Hook)>(0x029CD365 + 5).getUIntPtr()); // 0x02917625
+			dq(RelocAddr<decltype(&Hook)>(0x029CD7E5 + 5).getUIntPtr()); // 0x029CD365
 		}
 	};
 
 	static void Apply() {
-		g_Trampoline.write5Branch(RelocAddr<uintptr_t>(0x029CD365).getUIntPtr(), (uintptr_t)&Hook); // 0x02917625
+		g_Trampoline.write5Branch(RelocAddr<uintptr_t>(0x029CD7E5).getUIntPtr(), (uintptr_t)&Hook); // 0x029CD365
 	}
 
 	static void Hook(void* unk1, void* unk2) {
@@ -99,7 +99,7 @@ static void SFSEPlugin_EventCallback(SFSEMessagingInterface::Message* msg)
 extern "C"
 {
 	__declspec(dllexport) SFSEPluginVersionData SFSEPlugin_Version = {
-		SFSEPluginVersionData::kVersion, 1, "Console Hooks", "stonegdi", 0, 0, { RUNTIME_VERSION_1_12_30, 0 }, 0, 0, 0,
+		SFSEPluginVersionData::kVersion, 1, "Console Hooks", "stonegdi", 0, 0, { RUNTIME_VERSION_1_12_32, 0 }, 0, 0, 0,
 	};
 
 	__declspec(dllexport) bool SFSEPlugin_Preload(const SFSEInterface* sfse) {
